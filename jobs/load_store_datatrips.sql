@@ -40,7 +40,7 @@ BEGIN TRANSACTION
 			@retry_interval=0, 
 			@os_run_priority=0, @subsystem=N'TSQL', 
 			@command=N'BULK INSERT data_trips.stg.datatrips
-					   FROM ''C:\\PanchoPro\\Challenge\\mssql-data-of-trips\\mssql\not_processed_files\\trips.csv''
+					   FROM ''C:\\mssql-data-of-trips\\mssql\not_processed_files\\trips.csv''
 					   WITH (FORMAT = ''CSV''
 							 , FIRSTROW=2
 							 , FIELDQUOTE = ''\''
@@ -62,7 +62,7 @@ BEGIN TRANSACTION
 			@retry_attempts=0, 
 			@retry_interval=0, 
 			@os_run_priority=0, @subsystem=N'CmdExec', 
-			@command=N'move C:\PanchoPro\Challenge\mssql-data-of-trips\mssql\not_processed_files\trips.csv C:\PanchoPro\Challenge\mssql-data-of-trips\mssql\processed_files\', 
+			@command=N'move C:\mssql-data-of-trips\mssql\not_processed_files\trips.csv C:\mssql-data-of-trips\mssql\processed_files\', 
 			@flags=0
 	IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 
