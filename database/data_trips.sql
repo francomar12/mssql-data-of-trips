@@ -1,20 +1,20 @@
+/****** Object:  Database [data_trips]    Script Date: 17/10/2021 04:16 p. m. ******/
 USE [master]
 GO
 
-/****** Object:  Database [data_trips]    Script Date: 17/10/2021 02:46:50 p. m. ******/
 CREATE DATABASE [data_trips]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'data_trips', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\data_trips.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 10%)
- LOG ON 
-( NAME = N'data_trips_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\data_trips_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
- WITH CATALOG_COLLATION = DATABASE_DEFAULT
+	CONTAINMENT = NONE
+	ON  PRIMARY 
+	( NAME = N'data_trips', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\data_trips.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 10%)
+	LOG ON 
+	( NAME = N'data_trips_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\data_trips_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+	WITH CATALOG_COLLATION = DATABASE_DEFAULT
 GO
 
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
-begin
-EXEC [data_trips].[dbo].[sp_fulltext_database] @action = 'enable'
-end
+	BEGIN
+		EXEC [data_trips].[dbo].[sp_fulltext_database] @action = 'enable'
+	END
 GO
 
 ALTER DATABASE [data_trips] SET ANSI_NULL_DEFAULT OFF 
