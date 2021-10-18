@@ -76,16 +76,15 @@ First at all, a view is created, the view gets the region values with his weekly
 
 Status Notification
 
-To avoid the use of a polling solution and have knowledge about how many record were processed with the process, the solution is uses
+To avoid the use of a polling solution and have knowledge about how many record were processed with the process, the solution is to use
 the functionality of Database Mail incorporated in SQL Server.
 
-	The files to configure the functionality are located on conf/mail
-
-	- 1_enabling_db_mail.sql
-	- 2_creating_a_new_account.sql
-	- 3_creating_a_new_profile.sql
-	- 4_adding_the_dbmail_account_to_the_dbmail_profile.sql
-	- 5_adding_the_account_to_the_profile.sql
+    Conf/Mail folder
+    - 1_enabling_db_mail.sql
+    - 2_creating_a_new_account.sql
+    - 3_creating_a_new_profile.sql
+    - 4_adding_the_dbmail_account_to_the_dbmail_profile.sql
+    - 5_adding_the_account_to_the_profile.sql
 
 Scalability
 
