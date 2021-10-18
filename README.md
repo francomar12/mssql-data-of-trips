@@ -74,6 +74,9 @@ First at all, a view is created, the view gets the region values with his weekly
 
   - Using several tools the user can call a SELECT clause over that view and filter the wished region to look up the value of the average.
 
+If a functionality different from a view is necessary, the solution also have a scalar valued function. When this function is invocated
+it returns the avg value, to invocate the function pass the value of the region wished.
+
 Status Notification
 
 To avoid the use of a polling solution and have knowledge about how many record were processed with the process, the solution is to use
@@ -90,8 +93,9 @@ Scalability
 
 SQL Server has some specifications about capacity. Check this article related to
     - https://docs.microsoft.com/en-us/sql/sql-server/maximum-capacity-specifications-for-sql-server?view=sql-server-ver15
+
 Notice that the rows per table are limited by available storage. The solution is able to handle more than 100 million of entries.
 
 However, if there is doubth about the automated process, the process is not for loading a unique file that contains that amount of records.
-The process is going to work processing several files containing records, by region, date, data_source, user (for example), which make
+The process is going to work processing several files, which make
 possible handle an incremental count of records on-demand basis.
