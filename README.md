@@ -29,16 +29,47 @@ Install SQL Server Management Studio
 
 Preparing enviroment for an automated process
   - Once connected to the database server execute the files
+    
+    Database folder
     - data_trips.sql (script for creating data_trips database or create the database manually with this name by your self)
+
+    Schema folder
     - data_trips_stg_schema.sql (script for creating the stg schema
+
+    Tables folder
     - stg_datatrips.sql (script for creating datatrips table on the stg schema)
+
+Loading data into the database
+
+After the structure of the database created, it can proceed with the creation of the process for ingestion data. In this case, the
+functionality of SQL Server Jobs is used. So, in the context of create the process one job is needed. This job load the data from files
+located in one directory (not_processed_files), move the processed files to another directory (processed_files), count records processed,
+sent a mail with this information to an email account.
+
+   - Looking for complete this, execute the script for created the job
+
+   Jobs folder
+   - load_store_datatrips.sql
+
+NOTE: notice that the processed will get executed correctly if the topic about Status Notification is completed.
+
+Working with the data
+
+To get information about the weekly average number of trips for an area, it is possible to work on many ways.
+
+First at all, a view is created, the view gets the region values with his weekly average of trips.
+  - In order to create the view exec the correspondent script
+    
+    Views folder
+    - wee_trp_avg_rgn.sql
+
+  - Using several tools the user can call a SELECT clause over that view and filter the wished region to look up the value of the average.
 
 Status Notification
 
 To avoid the use of a polling solution and have knowledge about how many record were processed with the process, the solution is uses
 the functionality of Database Mail incorporated in SQL Server.
 
-<<<<<<< HEAD
 	The files to configure the functionality are located on conf/mail
 
 	- 1_enabling_db_mail.sql
@@ -47,10 +78,6 @@ the functionality of Database Mail incorporated in SQL Server.
 	- 4_adding_the_dbmail_account_to_the_dbmail_profile.sql
 	- 5_adding_the_account_to_the_profile.sql
 
-=======
-  /main/conf/mail
-  
->>>>>>> 3d8923cbf2d27d29a246a81404b18dc152d90b16
 Scalability
 
 SQL Server has some specifications about capacity. Check this article related to
