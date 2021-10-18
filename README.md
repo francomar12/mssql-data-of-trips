@@ -57,6 +57,7 @@ NOTE: notice that the processed will get executed correctly if the topic about S
 In the context of this solution, an Application should be developed to test the ingestion of data, the notifications and the function to
 get the weekly average. For time issues, only considerations were made. One faster solution is run a cmd command or execute a bat file
 to run the job of the database server.
+  - Execute bat file to run the solution
 
     Bat folder
     - call_proc.bat
@@ -98,9 +99,40 @@ the functionality of Database Mail incorporated in SQL Server.
 Scalability
 
 SQL Server has some specifications about capacity. Check this article related to
+
     - https://docs.microsoft.com/en-us/sql/sql-server/maximum-capacity-specifications-for-sql-server?view=sql-server-ver15
 
 Notice that the rows per table are limited by available storage. The solution is able to handle more than 100 million of entries.
 
 However, if there is doubth about the automated process, the process is not for loading a unique file that contains that amount of records.
 The process is going to work processing several files, which make possible handle an incremental count of records on-demand basis.
+
+About Containers
+
+Until this moment, all steps allows to work with a local solution. For sure, the solution can be move to or work on containers. 
+
+Now, are listed some activities that can help to aproach this goal.
+  - Install Docker
+    - Check https://docs.docker.com/desktop/windows/install/
+    - Download Docker (Before installing, read the information related with the requirements for the installation)
+    - Execute the installer
+    - Maybe, you will need to install kernel update on https://aka.ms/wsl2kernel
+      https://docs.microsoft.com/en-us/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package
+    - Verify if your require install WSL and Ubuntu (check all related documentation)
+
+  - Install or mount SQL Server Image on Docker
+    - Using power shell exec this command to download sql server for docker
+      docker run --name SQLServer -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=thePassword" -p 14333:1433 -d mcr.microsoft.com/mssql/server:2019-CU13-ubuntu-20.04
+      (notice that you have configure the name of the server, the sa password, the external and internal ports)
+
+
+How to setup the application using Azure
+
+It is necessary to get an Azure Account. Then, configure a server (choose a location, a region of the datacenters, the resource group). The database it will
+be located on this server. There are some features to be checked like tarif plan, firewall configuration, access rules and others.
+These options can provide a deploy of the database on Azure:
+  - Using SQL Server task option to deploy the database into Azure.
+  - Using Azure Data Studio to deploy into Azure SQL Database or SQL Server on Azure Virtual Machine.
+
+Both options move database, schemas, tablas, procedures and other database objects from on-premise to the cloud. It is needed to use others tools for
+guaranteed the process for ingesting the data.
