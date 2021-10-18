@@ -77,14 +77,16 @@ First at all, a view is created, the view gets the region values with his weekly
 
 If a functionality different from a view is necessary, the solution also have a scalar valued function. When this function is invocated
 it returns the avg value, to invocate the function pass the value of the region wished.
+  - Execute the correspondent script to create the function
 
-    Views folder
+    Functions folder
     - get_wee_avg_trp_rgn.sql
 
 Status Notification
 
 To avoid the use of a polling solution and have knowledge about how many record were processed with the process, the solution is to use
 the functionality of Database Mail incorporated in SQL Server.
+  - Execute scripts below to configure notifications
 
     Conf/Mail folder
     - 1_enabling_db_mail.sql
