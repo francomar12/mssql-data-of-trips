@@ -34,10 +34,11 @@ Preparing enviroment for an automated process
     - data_trips.sql (script for creating data_trips database or create the database manually with this name by your self)
 
     Schema folder
-    - data_trips_stg_schema.sql (script for creating the stg schema
+    - data_trips_stg_schema.sql (script for creating the stg schema)
 
     Tables folder
     - stg_datatrips.sql (script for creating datatrips table on the stg schema)
+    - dbo_datatrips.sql (script for creating datatrips table on the dbo schema)
 
 Loading data into the database
 
@@ -77,6 +78,9 @@ First at all, a view is created, the view gets the region values with his weekly
 If a functionality different from a view is necessary, the solution also have a scalar valued function. When this function is invocated
 it returns the avg value, to invocate the function pass the value of the region wished.
 
+    Views folder
+    - get_wee_avg_trp_rgn.sql
+
 Status Notification
 
 To avoid the use of a polling solution and have knowledge about how many record were processed with the process, the solution is to use
@@ -97,5 +101,4 @@ SQL Server has some specifications about capacity. Check this article related to
 Notice that the rows per table are limited by available storage. The solution is able to handle more than 100 million of entries.
 
 However, if there is doubth about the automated process, the process is not for loading a unique file that contains that amount of records.
-The process is going to work processing several files, which make
-possible handle an incremental count of records on-demand basis.
+The process is going to work processing several files, which make possible handle an incremental count of records on-demand basis.
