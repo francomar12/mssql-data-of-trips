@@ -38,6 +38,7 @@ Status Notification
 To avoid the use of a polling solution and have knowledge about how many record were processed with the process, the solution is uses
 the functionality of Database Mail incorporated in SQL Server.
 
+<<<<<<< HEAD
 	The files to configure the functionality are located on conf/mail
 
 	- 1_enabling_db_mail.sql
@@ -46,6 +47,10 @@ the functionality of Database Mail incorporated in SQL Server.
 	- 4_adding_the_dbmail_account_to_the_dbmail_profile.sql
 	- 5_adding_the_account_to_the_profile.sql
 
+=======
+  /main/conf/mail
+  
+>>>>>>> 3d8923cbf2d27d29a246a81404b18dc152d90b16
 Scalability
 
 SQL Server has some specifications about capacity. Check this article related to
