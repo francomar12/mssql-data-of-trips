@@ -46,12 +46,21 @@ functionality of SQL Server Jobs is used. So, in the context of create the proce
 located in one directory (not_processed_files), move the processed files to another directory (processed_files), count records processed,
 sent a mail with this information to an email account.
 
-   - Looking for complete this, execute the script for created the job
+  - Looking for complete this, execute the script for created the job
 
-   Jobs folder
-   - load_store_datatrips.sql
+    Jobs folder
+    - load_store_datatrips.sql
 
 NOTE: notice that the processed will get executed correctly if the topic about Status Notification is completed.
+
+In the context of this solution, an Application should be developed to test the ingestion of data, the notifications and the function to
+get the weekly average. For time issues, only considerations were made. One faster solution is run a cmd command or execute a bat file
+to run the job of the database server.
+
+    Bat folder
+    - call_proc.bat
+
+NOTE: be sure of change the value of the server name and the path for the output file.
 
 Working with the data
 
