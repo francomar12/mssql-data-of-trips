@@ -33,6 +33,19 @@ Preparing enviroment for an automated process
     - data_trips_stg_schema.sql (script for creating the stg schema
     - stg_datatrips.sql (script for creating datatrips table on the stg schema)
 
+Status Notification
+
+To avoid the use of a polling solution and have knowledge about how many record were processed with the process, the solution is uses
+the functionality of Database Mail incorporated in SQL Server.
+
+	The files to configure the functionality are located on conf/mail
+
+	- 1_enabling_db_mail.sql
+	- 2_creating_a_new_account.sql
+	- 3_creating_a_new_profile.sql
+	- 4_adding_the_dbmail_account_to_the_dbmail_profile.sql
+	- 5_adding_the_account_to_the_profile.sql
+
 Scalability
 
 SQL Server has some specifications about capacity. Check this article related to
