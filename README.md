@@ -52,7 +52,7 @@ sent a mail with this information to an email account.
     Jobs folder
     - load_store_datatrips.sql
 
-NOTE: notice that the processed will get executed correctly if the topic about Status Notification is completed.
+NOTE: notice that the script will get executed correctly if the topic about Status Notification is completed and the SQL Server Agent is running.
 
 In the context of this solution, an Application should be developed to test the ingestion of data, the notifications and the function to
 get the weekly average. For time issues, only considerations were made. One faster solution is run a cmd command or execute a bat file
@@ -98,9 +98,7 @@ the functionality of Database Mail incorporated in SQL Server.
 
 Scalability
 
-SQL Server has some specifications about capacity. Check this article related to
-
-    - https://docs.microsoft.com/en-us/sql/sql-server/maximum-capacity-specifications-for-sql-server?view=sql-server-ver15
+SQL Server has some specifications about capacity. Check this article related to https://docs.microsoft.com/en-us/sql/sql-server/maximum-capacity-specifications-for-sql-server?view=sql-server-ver15
 
 Notice that the rows per table are limited by available storage. The solution is able to handle more than 100 million of entries.
 
@@ -116,20 +114,30 @@ Now, are listed some activities that can help to aproach this goal.
     - Check https://docs.docker.com/desktop/windows/install/
     - Download Docker (Before installing, read the information related with the requirements for the installation)
     - Execute the installer
-    - Maybe, you will need to install kernel update on https://aka.ms/wsl2kernel
+    - Maybe, you will need to install kernel update on https://aka.ms/wsl2kernel. Review next topic
       https://docs.microsoft.com/en-us/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package
     - Verify if your require install WSL and Ubuntu (check all related documentation)
 
   - Install or mount SQL Server Image on Docker
-    - Using power shell exec this command to download sql server for docker
+    - Using power shell exec a command like this to download sql server for docker
+
       docker run --name SQLServer -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=thePassword" -p 14333:1433 -d mcr.microsoft.com/mssql/server:2019-CU13-ubuntu-20.04
       (notice that you have configure the name of the server, the sa password, the external and internal ports)
+
+    - Using power shell exec a command like this to going inside the container
+      docker exec -it --user root CONTAINERID bash
+
+    - Using power shell exec a command like this to activate SQL Server Agent
+      - /opt/mssql/bin/mssql-conf set sqlagent.enabled true
+
+    - Configuring Agent XPs
 
 
 How to setup the application using Azure
 
 It is necessary to get an Azure Account. Then, configure a server (choose a location, a region of the datacenters, the resource group). The database it will
 be located on this server. There are some features to be checked like tarif plan, firewall configuration, access rules and others.
+
 These options can provide a deploy of the database on Azure:
   - Using SQL Server task option to deploy the database into Azure.
   - Using Azure Data Studio to deploy into Azure SQL Database or SQL Server on Azure Virtual Machine.
