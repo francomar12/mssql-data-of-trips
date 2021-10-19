@@ -147,7 +147,7 @@ IF @@rowcount > 0
 BEGIN
 	exec msdb.dbo.sp_send_dbmail
 	@profile_name = ''default'', 
-	@recipients = ''francomar12@hotmail.com'', 
+	@recipients = ''destinataryemailoftest@hotmail.com'', 
 	@subject = ''The procedure for loading data finished successfully.'', 
 	@body = @EmailBody,
 	@body_format = ''text''
