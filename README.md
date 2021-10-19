@@ -62,7 +62,7 @@ to run the job of the database server.
     Bat folder
     - call_proc.bat
 
-NOTE: be sure of change the value of the server name and the path for the output file.
+NOTE: be sure of change the value of the server name and the path for the output file. Check the path not_processed_files and processed_files exists also.
 
 Working with the data
 
@@ -125,13 +125,17 @@ Now, are listed some activities that can help to aproach this goal.
       (notice that you have configure the name of the server, the sa password, the external and internal ports)
 
     - Using power shell exec a command like this to going inside the container
+
       docker exec -it --user root CONTAINERID bash
 
     - Using power shell exec a command like this to activate SQL Server Agent
-      - /opt/mssql/bin/mssql-conf set sqlagent.enabled true
+
+      /opt/mssql/bin/mssql-conf set sqlagent.enabled true
 
     - Configuring Agent XPs
 
+  - Finally, execute all steps listed above for a local installation of the solution. But remember, you must change path from windows to linux. Also
+commands use for load data, moving files need to be checked or replaced if is necessary.
 
 How to setup the application using Azure
 

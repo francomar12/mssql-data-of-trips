@@ -1,9 +1,11 @@
-/****** Object:			 Job [load_store_datatrips]                                                ******/
-/****** Script Date:	 17/10/2021 12:36:43 a. m.                                                 ******/
-/****** Created/Updated: francomar12																  ******/
-/****** Description:     Job for loading data into stg schema, moving data from stg to dbo schema,
+/************************************************************************************************ 
+Object:			Job [load_store_datatrips]                                             
+Script Date:		17/10/2021 12:36 a. m.										
+Created/Updated:	francomar12																
+Description:		Job for loading data into stg schema, moving data from stg to dbo schema,
 		                 moving files from unprocessed directory to the processed directory,
-		                 sending email notifications                                               ******/
+				sending email notifications
+************************************************************************************************/
 USE [msdb]
 GO
 
@@ -47,14 +49,57 @@ BEGIN TRANSACTION
 		@retry_attempts=0, 
 		@retry_interval=0, 
 		@os_run_priority=0, @subsystem=N'TSQL', 
-		@command=N'BULK INSERT data_trips.stg.datatrips
-			   FROM ''C:\\mssql-data-of-trips\\mssql\not_processed_files\\trips.csv''
-			   WITH (FORMAT = ''CSV''
-					 , FIRSTROW=2
-					 , FIELDQUOTE = ''\''
-					 , FIELDTERMINATOR = '',''
-					 , ROWTERMINATOR = ''0x0a'')
-			   GO', 
+		@command=N'--Bulk insert multiple files 
+
+    -- A temporal table for storing name of files to be processed
+    CREATE TABLE stg.allfilenames(WHICHPATH VARCHAR(255),WHICHFILE varchar(255))
+
+    -- Variables
+    DECLARE @filename varchar(255),
+            @path     varchar(255),
+            @sql      varchar(8000),
+            @cmd      varchar(1000)
+
+
+    -- Get the list of files to process:
+    SET @path = ''C:\PanchoPro\Challenge\mssql-data-of-trips\mssql\not_processed_files\''
+    SET @cmd = ''dir '' + @path + ''*.csv /b''
+
+    INSERT INTO  stg.ALLFILENAMES(WHICHFILE)
+    EXEC Master..xp_cmdShell @cmd
+
+    UPDATE	stg.allfilenames 
+	SET		WHICHPATH = @path 
+	WHERE	WHICHPATH IS NULL
+
+    --cursor loop
+    DECLARE c1 CURSOR FOR SELECT WHICHPATH,WHICHFILE FROM stg.allfilenames WHERE WHICHFILE like ''%.csv%''
+    OPEN c1
+    FETCH NEXT FROM c1 INTO @path,@filename
+    WHILE @@fetch_status <> -1
+      BEGIN
+      -- Bulk insert won''t take a variable name, so make a sql and execute it instead:
+       SET @sql = ''BULK INSERT data_trips.stg.datatrips FROM '''''' + @path + @filename + '''''' ''
+           + ''     WITH ( 
+      FIRSTROW=2
+	  , FIELDQUOTE = ''''\''''
+      , FIELDTERMINATOR = '''',''''
+      , ROWTERMINATOR = ''''0x0a''''                ) ''
+    
+	print @sql
+    EXEC (@sql)
+
+	-- Inserting a record of processed files for history table
+	INSERT INTO data_trips.dbo.loaded_files (file_name, load_dt_end) 
+	SELECT	@filename, sysdatetime()
+
+      FETCH NEXT FROM c1 INTO @path,@filename
+      END
+    CLOSE c1
+    DEALLOCATE c1
+
+    -- Drop temporal table
+	drop table stg.allfilenames', 
 		@database_name=N'data_trips', 
 		@flags=0
 	IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback

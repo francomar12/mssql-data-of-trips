@@ -1,4 +1,9 @@
-/****** Object:  Database [data_trips]    Script Date: 17/10/2021 04:16 p. m. ******/
+/************************************************************************************************ 
+Object:			Database [data_trips]                                              
+Script Date:		17/10/2021 04:16 p. m.										
+Created/Updated:	francomar12																
+Description:		Script use to create the database			                                                     
+************************************************************************************************/
 USE [master]
 GO
 
