@@ -39,6 +39,7 @@ Preparing enviroment for an automated process
     Tables folder
     - stg_datatrips.sql (script for creating datatrips table on the stg schema)
     - dbo_datatrips.sql (script for creating datatrips table on the dbo schema)
+    - dbo_loaded_files.sql (script for creating loaded files table on the dbo schema)
 
 Loading data into the database
 
@@ -62,7 +63,7 @@ to run the job of the database server.
     Bat folder
     - call_proc.bat
 
-NOTE: be sure of change the value of the server name and the path for the output file. Check the path not_processed_files and processed_files exists also.
+NOTE: be sure of change the value of the server name and the path for the output file. Check the path not_processed_files and processed_files also exists.
 
 Working with the data
 
@@ -72,16 +73,19 @@ First at all, a view is created, the view gets the region values with his weekly
   - In order to create the view exec the correspondent script
     
     Views folder
-    - wee_trp_avg_rgn.sql
+    - group_datatrips.sql (A view that gets all similar trips grouped)
+    - wee_trp_avg_rgn.sql (A view that gets the average)
 
-  - Using several tools the user can call a SELECT clause over that view and filter the wished region to look up the value of the average.
+  - Using several tools the user can call a SELECT clause over these views and filter the wished field values or look up the value of the average.
 
-If a functionality different from a view is necessary, the solution also have a scalar valued function. When this function is invocated
-it returns the avg value, to invocate the function pass the value of the region wished.
+If a functionality different from a view is necessary, the solution also have a scalar valued function. 
   - Execute the correspondent script to create the function
 
     Functions folder
     - get_wee_avg_trp_rgn.sql
+
+When this function is invocated it returns the avg value, to invocate the function pass the value of the region wished. For example:
+SELECT	dbo.get_wee_avg_trp_rgn('Turin')
 
 Status Notification
 
@@ -104,6 +108,22 @@ Notice that the rows per table are limited by available storage. The solution is
 
 However, if there is doubth about the automated process, the process is not for loading a unique file that contains that amount of records.
 The process is going to work processing several files, which make possible handle an incremental count of records on-demand basis.
+
+In the other hands, for supporting this afirmation a test cand be done:
+
+Having inserted or load one csv file with 100 records, having datatrips table that count of records, execute the next sentence
+
+INSERT 	dbo.datatrips 
+SELECT 	* 
+FROM 	dbo.datatrips
+GO 17
+
+With the sentence above, the dbo.datatrips table is going to grow from 100 to 104857600. Some tests were made with a 9830400 data model, the view or functions
+gives the values of the average by region. 
+
+Selecting records on dbo.datatrips table is made in less than 3 seconds.
+Selecting records on dbo.group_datatrips view is made in less than 3 seconds.
+Selecting value on dbo.get_wee_avg_trp_rgn function is made in less than 3 seconds.
 
 About Containers
 

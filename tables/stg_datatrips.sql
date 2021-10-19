@@ -18,7 +18,7 @@ CREATE TABLE [stg].[datatrips](
 	[origin_coord] [varchar](100) NULL,
 	[destin_coord] [varchar](100) NULL,
 	[datetime] [datetime] NOT NULL,
-	[data_source] [nvarchar](50) NULL
+	[data_source] [varchar](50) NULL
 ) ON [PRIMARY]
 GO
 

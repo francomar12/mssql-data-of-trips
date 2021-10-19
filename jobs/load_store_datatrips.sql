@@ -62,10 +62,10 @@ BEGIN TRANSACTION
 
 
     -- Get the list of files to process:
-    SET @path = ''C:\PanchoPro\Challenge\mssql-data-of-trips\mssql\not_processed_files\''
+    SET @path = ''C:\mssql-data-of-trips\mssql\not_processed_files\''
     SET @cmd = ''dir '' + @path + ''*.csv /b''
 
-    INSERT INTO  stg.ALLFILENAMES(WHICHFILE)
+    INSERT INTO  stg.allfilenames(WHICHFILE)
     EXEC Master..xp_cmdShell @cmd
 
     UPDATE	stg.allfilenames 
@@ -116,7 +116,7 @@ BEGIN TRANSACTION
 		@retry_attempts=0, 
 		@retry_interval=0, 
 		@os_run_priority=0, @subsystem=N'CmdExec', 
-		@command=N'move C:\mssql-data-of-trips\mssql\not_processed_files\trips.csv C:\mssql-data-of-trips\mssql\processed_files\', 
+		@command=N'move C:\mssql-data-of-trips\mssql\not_processed_files\*.csv C:\mssql-data-of-trips\mssql\processed_files\', 
 		@flags=0
 	IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 
@@ -135,6 +135,24 @@ BEGIN TRANSACTION
 		@command=N'INSERT INTO 	data_trips.dbo.datatrips
 			   SELECT 	*
 			   FROM		data_trips.stg.datatrips;
+
+SET NOCOUNT ON
+declare @RowCount as int 
+declare @EmailBody as varchar(1000)
+
+SELECT @RowCount = count(*) FROM data_trips.stg.datatrips
+set @EmailBody = ''Successfully Production '' + cast(@RowCount as varchar(50)) + '' Records Loaded''
+
+IF @@rowcount > 0
+BEGIN
+	exec msdb.dbo.sp_send_dbmail
+	@profile_name = ''default'', 
+	@recipients = ''francomar12@hotmail.com'', 
+	@subject = ''The procedure for loading data finished successfully.'', 
+	@body = @EmailBody,
+	@body_format = ''text''
+END
+
 			   DELETE
 			   FROM		data_trips.stg.datatrips;', 
 		@database_name=N'data_trips', 
