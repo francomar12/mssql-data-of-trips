@@ -168,3 +168,5 @@ These options can provide a deploy of the database on Azure:
 
 Both options move database, schemas, tablas, procedures and other database objects from on-premise to the cloud. It is needed to use others tools for
 guaranteed the process for ingesting the data.
+
+-- Testing Pull Requests
